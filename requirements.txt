@@ -1,0 +1,12 @@
+torch
+opencv-python
+glob2
+tensorflow
+mtcnn
+Cython
+insightface
+onnxruntime
+basicsr
+facexlib
+gfpgan
+timm
