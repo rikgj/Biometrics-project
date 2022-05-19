@@ -2,7 +2,7 @@ import glob
 
 
 def get_paths(extension, dir):
-    search = dir + '/*.' + extension
+    search = f'{dir}/*.{extension}'
     paths = glob.glob(search)
     return paths
 

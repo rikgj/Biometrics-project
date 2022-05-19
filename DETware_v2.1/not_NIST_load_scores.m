@@ -1,5 +1,5 @@
 % The code will compute DET curves using the scores produced by
-% get_similarity_scores.py. 
+% get_similarity_scores.py.
 % Note that the NIST code assumes high score --> match
 
 
@@ -10,7 +10,7 @@
 %   SwinIR
 
 DIMS = ["64", "128", "256"];
-%DIMS = '64'; 
+%DIMS = '64';
 REF = 'bicubic';
 PROBE = 'bicubic';
 
@@ -33,7 +33,7 @@ gen_score = fscanf(fileID,formatSpec);
 gen_score = abs(gen_score-1);
 
 save_at = strcat('mat_scores\',base_name);
-save(save_at, 'gen_score'); 
+save(save_at, 'gen_score');
 fclose(fileID);
 
 % read imposter score (repeat above)
@@ -44,7 +44,7 @@ imp_score = fscanf(fileID,formatSpec);
 imp_score = abs(imp_score-1);
 
 save_at = strcat('mat_scores\',base_name);
-save(save_at, 'imp_score', '-append'); 
+save(save_at, 'imp_score', '-append');
 fclose(fileID);
 
 end

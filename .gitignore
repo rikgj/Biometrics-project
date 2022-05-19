@@ -1,10 +1,12 @@
 # remove project images, results, and pre-trained models
 images/*
+img_report
 error/*
 scores/*
 lists/*
 DETware_v2.1/imgs/*
 DETware_v2.1/mat_scores/*
+
 
 SR/experiments/pretrained_models/*
 SR/BSRGAN/model_zoo/BSRGAN.pth
