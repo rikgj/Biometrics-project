@@ -1,27 +1,38 @@
 from get_paths import get_file_names
 from collections import Counter
 import matplotlib.pyplot as plt
+import math
 
 FACE_FOLDER = './images/FRGC_cropped'
 LIM_START = 5
 LIM_END = 25
 
-limits = [i for i in range(LIM_START, LIM_END+1)]
-
 
 def get_id_img_info():
     full_names = get_file_names('jpg', FACE_FOLDER)
-    i = full_names[0].index('d')
-    ids = [id[0:i] for id in full_names]
+    ids = [id[0:id.index('d')] for id in full_names]
 
-    # number of images
+    # number of images per id
     images_per_id = Counter(ids)
-
-    # get number of ids with imgs
     images_per_id = images_per_id.items()
 
+    # get median score
+    img_list = [imgs for id, imgs in images_per_id]
+    img_list.sort()
+    s = len(img_list)
+    median = -1
+    if s % 2 == 0:
+        i = int(s/2)
+        median = img_list[i]
+    else:
+        i = int(math.floor(s/2))
+        median = (img_list[i]+img_list[i+1])/2
+    print(f'Median: {median}')
+
+    # plot limit/discard_ids
     plotX = []
     plotY = []
+    limits = [i for i in range(LIM_START, LIM_END+1)]
 
     for limit in limits:
         discard_ids = []

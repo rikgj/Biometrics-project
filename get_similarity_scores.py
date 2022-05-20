@@ -5,23 +5,6 @@ import os
 import get_project_folder as get_pf
 import math
 
-# FIXME: check if folder and file exists
-# load information, replace folder and save to fit your structure
-DIM = '256'
-DET_S = int(math.floor(int(DIM)/2))  # must be int
-IMG_FOLDER_REFERENCE, REF_NAME = get_pf.get_swinir_folder(DIM)
-IMG_FOLDER_PROBE, PROBE_NAME = get_pf.get_swinir_folder(DIM)
-REFERENCE_FILE = './lists/rnd_reference_3.txt'
-PROBE_FILE = './lists/rnd_probe_9.txt'
-
-# save information
-file_prefix = DIM + '_ref_' + REF_NAME + '_probe_' + PROBE_NAME
-subfolder = DIM + '_similarity'
-SAVE_IMPOSTER = f'scores/{DIM}/{subfolder}/{file_prefix}_imposter_scores.txt'
-SAVE_GENUINE = f'scores/{DIM}/{subfolder}/{file_prefix}_genuine_scores.txt'
-
-ERROR_TRACKER = []
-
 
 # scoring and distance metric provided by ArcFace, cosine
 def distance(embeddings1, embeddings2):
@@ -33,12 +16,8 @@ def distance(embeddings1, embeddings2):
     norm = np.linalg.norm(embeddings1, axis=0) * \
         np.linalg.norm(embeddings2, axis=0)
     similarity = dot/norm
-    # rstrict score to range 0..1
-    similarity = min(1, similarity)
-    similarity = max(0, similarity)
-    dist = 1-similarity
 
-    return dist
+    return similarity
 
 
 def get_file_as_list(filename):
@@ -128,9 +107,25 @@ def main():
 
 
 if __name__ == '__main__':
-    if os.path.exists(SAVE_GENUINE) or os.path.exists(SAVE_IMPOSTER):
-        print('Score files exists, delete or rename, before running this')
-        print(SAVE_GENUINE)
-        print(SAVE_IMPOSTER)
-    else:
-        main()
+
+    DIMS = ['64', '128', '256']
+    for dim in DIMS:
+        DET_S = int(math.floor(int(dim)/2))  # must be int
+        IMG_FOLDER_REFERENCE, REF_NAME = get_pf.get_bicubic_folder(dim)
+        IMG_FOLDER_PROBE, PROBE_NAME = get_pf.get_bicubic_folder(dim)
+        REFERENCE_FILE = './lists/rnd_reference_3.txt'
+        PROBE_FILE = './lists/rnd_probe_9.txt'
+
+        # save information
+        file_prefix = f'{dim}_ref_{REF_NAME}_probe_{PROBE_NAME}'
+        subfolder = dim + '_similarity'
+        SAVE_IMPOSTER = f'scores/{dim}/{subfolder}/{file_prefix}_imposter_scores.txt'
+        SAVE_GENUINE = f'scores/{dim}/{subfolder}/{file_prefix}_genuine_scores.txt'
+
+        ERROR_TRACKER = []
+        if os.path.exists(SAVE_GENUINE) or os.path.exists(SAVE_IMPOSTER):
+            print('Score files exists, delete or rename, before running this')
+            print(SAVE_GENUINE)
+            print(SAVE_IMPOSTER)
+        else:
+            main()
