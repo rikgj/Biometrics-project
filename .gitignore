@@ -3,6 +3,7 @@ images/*
 img_report
 error/*
 scores/*
+true_sim_score/
 lists/*
 DETware_v2.1/imgs/*
 DETware_v2.1/mat_scores/*
